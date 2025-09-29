@@ -1,20 +1,13 @@
 package dataapi.authz
 
-default allow = false
-
-# Usuário da área de dados tem acesso completo
-allow {
-    input.user_role == "dados"
+# Marketing: ocultar a coluna Price_in_taka
+verdict[{"action": {"name":"DeleteColumn", "columns": ["Price_in_taka"]}, "policy": "Ocultar Price_in_taka para marketing"}] {
+  input.action.actionType == "read"
+  input.context.workload.properties["team"] == "marketing"
 }
 
-# Usuário de marketing só pode acessar colunas que não sejam 'price_in_taka'
-allow {
-    input.user_role == "marketing"
-    not input.column == "price_in_taka"
-}
-
-# Usuário de financeiro só pode acessar colunas que não sejam 'city'
-allow {
-    input.user_role == "financeiro"
-    not input.column == "city"
+# Finance: ocultar a coluna City
+verdict[{"action": {"name":"DeleteColumn", "columns": ["City", "Location"]}, "policy": "Ocultar City para financeiro"}] {
+  input.action.actionType == "read"
+  input.context.workload.properties["team"] == "finance"
 }
