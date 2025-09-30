@@ -1,0 +1,45 @@
+apiVersion: katalog.fybrik.io/v1alpha1
+kind: Asset
+metadata:
+  name: house-price-bd
+  namespace: fybrik-notebook-sample
+spec:
+  secretRef:
+    name: house-price-bd-secret
+    namespace: fybrik-notebook-sample
+  metadata:
+    name: Bangladesh House Prices
+    owner: tcc-data-mesh
+    geography: bd
+    tags:
+      Purpose.realestate: 'true'
+      Source.academic: 'true'
+    columns:
+    - name: Title
+    - name: Bedrooms
+    - name: Bathrooms
+    - name: Floor_no
+    - name: Occupancy_status
+    - name: Floor_area
+    - name: City
+      tags:
+        sensitive: "true"
+        category: "location"
+    - name: Price_in_taka
+      tags:
+        sensitive: "true"
+        category: "price"
+    - name: Location
+      tags:
+        sensitive: "true"
+        category: "location"
+  details:
+    dataFormat: csv
+    connection:
+      name: s3
+      s3:
+        endpoint: s3.sa-east-1.amazonaws.com
+        region: <region_name_AWS>
+        bucket: <bucket_name_AWS>
+        object_key: house_price_bd.csv
+  

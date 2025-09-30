@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nb-marketing
+  namespace: fybrik-notebook-sample
+  labels:
+    app: nb-marketing
+    team: marketing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nb-marketing
+  template:
+    metadata:
+      labels:
+        app: nb-marketing
+        team: marketing
+    spec:
+      containers:
+        - name: notebook
+          image: jupyter/base-notebook:latest
+          ports:
+            - containerPort: 8888

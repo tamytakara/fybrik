@@ -1,0 +1,19 @@
+apiVersion: app.fybrik.io/v1beta1
+kind: FybrikApplication
+metadata:
+  name: app-marketing
+  namespace: fybrik-notebook-sample
+spec:
+  appInfo:
+    intent: "read"
+  selector:
+    workloadSelector:
+      matchLabels:
+        app: nb-marketing
+        team: marketing
+  data:
+    - dataSetID: fybrik-notebook-sample/house-price-bd
+      requirements:
+        interface:
+          protocol: fybrik-arrow-flight
+          dataformat: csv
